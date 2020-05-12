@@ -5,19 +5,19 @@
 #include <tuple>
 
 BackPack::BackPack()
-	: pAmmo(24), pMag(12), sAmmo(0), sMag(8), uAmmo(30), uMag(30), mAmmo(0),
-	mMag(30), inHand(Weapon::Pistol), box(sf::Vector2f(230,120)),
-	position(20, sf::VideoMode::getDesktopMode().height - 140)
+    : pAmmo(24), pMag(12), sAmmo(0), sMag(8), uAmmo(30), uMag(30), mAmmo(0),
+    mMag(30), inHand(Weapon::Pistol), box(sf::Vector2f(230,120)),
+    position(20, sf::VideoMode::getDesktopMode().height - 140)
 {
-	box.setFillColor(sf::Color(10, 10, 10, 140));
-	font.loadFromFile("data/font/CodenameCoderFree4F-Bold.ttf");
-	txt.setFont(font);
-	txtAmmo.setFont(font);
-	
-	txt.setString("Pistol\n10/15");
+    box.setFillColor(sf::Color(10, 10, 10, 140));
+    font.loadFromFile("data/font/CodenameCoderFree4F-Bold.ttf");
+    txt.setFont(font);
+    txtAmmo.setFont(font);
+    
+    txt.setString("Pistol\n10/15");
 
-	boxS.setTexture(GetWindow().getBoxRT().getTexture());
-	life.setFont(font);
+    boxS.setTexture(GetWindow().getBoxRT().getTexture());
+    life.setFont(font);
 }
 
 BackPack::~BackPack()
@@ -26,128 +26,128 @@ BackPack::~BackPack()
 
 void BackPack::draw(int playerLife)
 {
-	box.setPosition(GetWindow().getViewCenter().x-sf::VideoMode::getDesktopMode().width/2+position.x,GetWindow().getViewCenter().y-sf::VideoMode::getDesktopMode().height/2+position.y);
-	txt.setPosition(box.getPosition().x+35,box.getPosition().y+20);
+    box.setPosition(GetWindow().getViewCenter().x-sf::VideoMode::getDesktopMode().width/2+position.x,GetWindow().getViewCenter().y-sf::VideoMode::getDesktopMode().height/2+position.y);
+    txt.setPosition(box.getPosition().x+35,box.getPosition().y+20);
 
-	boxS.setPosition(GetWindow().getViewCenter().x+sf::VideoMode::getDesktopMode().width/2-position.x-240,GetWindow().getViewCenter().y-sf::VideoMode::getDesktopMode().height/2+position.y+30);
-	life.setPosition(boxS.getPosition().x+20,boxS.getPosition().y+25);
+    boxS.setPosition(GetWindow().getViewCenter().x+sf::VideoMode::getDesktopMode().width/2-position.x-240,GetWindow().getViewCenter().y-sf::VideoMode::getDesktopMode().height/2+position.y+30);
+    life.setPosition(boxS.getPosition().x+20,boxS.getPosition().y+25);
 
-	txt.setString(getWeaponInfoString());
+    txt.setString(getWeaponInfoString());
 
-	std::ostringstream ss;
-	ss.str("");
-	ss << "     " << playerLife / 2;
-	life.setString(ss.str());
+    std::ostringstream ss;
+    ss.str("");
+    ss << "     " << playerLife / 2;
+    life.setString(ss.str());
 
-	GetWindow().draw(&box);
-	GetWindow().draw(&txt);
-	GetWindow().draw(&boxS);
-	GetWindow().draw(&life);
+    GetWindow().draw(&box);
+    GetWindow().draw(&txt);
+    GetWindow().draw(&boxS);
+    GetWindow().draw(&life);
 
-	ss.str("");
-//	ss << SCORE;
-	txt.setString(ss.str());
-	txt.setPosition(GetWindow().getViewCenter().x, GetWindow().getViewCenter().y - GetWindow().getSize().y / 2);
-	GetWindow().draw(&txt);
+    ss.str("");
+//    ss << SCORE;
+    txt.setString(ss.str());
+    txt.setPosition(GetWindow().getViewCenter().x, GetWindow().getViewCenter().y - GetWindow().getSize().y / 2);
+    GetWindow().draw(&txt);
 }
 
 std::string BackPack::getWeaponInfoString()
 {
-	std::ostringstream ss;
-	using ammoInformation = std::tuple<std::string, int, int>;
-	std::map<Weapon, ammoInformation> ammunictionMap { { Weapon::Pistol, { "Pistol", pMag, pAmmo } },
-	                                                   { Weapon::Shotgun, { "Shotgun", sMag, sAmmo } },
-										 			   { Weapon::Uzi, { "Uzi", uMag, uAmmo } },
-										  			   { Weapon::MG, { "MG", mMag, mAmmo } } };
+    std::ostringstream ss;
+    using ammoInformation = std::tuple<std::string, int, int>;
+    std::map<Weapon, ammoInformation> ammunictionMap { { Weapon::Pistol, { "Pistol", pMag, pAmmo } },
+                                                       { Weapon::Shotgun, { "Shotgun", sMag, sAmmo } },
+                                                        { Weapon::Uzi, { "Uzi", uMag, uAmmo } },
+                                                         { Weapon::MG, { "MG", mMag, mAmmo } } };
 
-	ss << std::get<0>(ammunictionMap[inHand]) << std::endl 
-	   << std::get<1>(ammunictionMap[inHand]) << "/" 
-	   << std::get<2>(ammunictionMap[inHand]);
-	
-	return ss.str();
+    ss << std::get<0>(ammunictionMap[inHand]) << std::endl 
+       << std::get<1>(ammunictionMap[inHand]) << "/" 
+       << std::get<2>(ammunictionMap[inHand]);
+    
+    return ss.str();
 }
 
 bool BackPack::shot()
 {
-	std::map<Weapon, int*> magMap { { Weapon::Pistol, &pMag },
-	                                { Weapon::Shotgun, &sMag },
-								    { Weapon::Uzi, &uMag },
-								    { Weapon::MG, &mMag } }; 
+    std::map<Weapon, int*> magMap { { Weapon::Pistol, &pMag },
+                                    { Weapon::Shotgun, &sMag },
+                                    { Weapon::Uzi, &uMag },
+                                    { Weapon::MG, &mMag } }; 
 
-	if(*magMap[inHand] > 0)
-	{
-		(*magMap[inHand])--;
-		return true;
-	}
+    if(*magMap[inHand] > 0)
+    {
+        (*magMap[inHand])--;
+        return true;
+    }
 
-	return false;
+    return false;
 }
 
 int BackPack::reload()
 {
-	std::map<Weapon, int> maxBulletsInMag { { Weapon::Pistol, 12 },
-	                                        { Weapon::Shotgun, 8 },
-	                                        { Weapon::Uzi,30 },
-	                                        { Weapon::MG, 30 } };
+    std::map<Weapon, int> maxBulletsInMag { { Weapon::Pistol, 12 },
+                                            { Weapon::Shotgun, 8 },
+                                            { Weapon::Uzi,30 },
+                                            { Weapon::MG, 30 } };
 
-	std::map<Weapon, int*> magMap { { Weapon::Pistol, &pMag },
-	                                { Weapon::Shotgun, &sMag },
-								    { Weapon::Uzi, &uMag },
-								    { Weapon::MG, &mMag } }; 
+    std::map<Weapon, int*> magMap { { Weapon::Pistol, &pMag },
+                                    { Weapon::Shotgun, &sMag },
+                                    { Weapon::Uzi, &uMag },
+                                    { Weapon::MG, &mMag } }; 
 
-	std::map<Weapon, int*> ammoMap { { Weapon::Pistol, &pAmmo },
-	                                 { Weapon::Shotgun, &sAmmo },
-							 	     { Weapon::Uzi, &uAmmo },
-								     { Weapon::MG, &mAmmo } };
+    std::map<Weapon, int*> ammoMap { { Weapon::Pistol, &pAmmo },
+                                     { Weapon::Shotgun, &sAmmo },
+                                      { Weapon::Uzi, &uAmmo },
+                                     { Weapon::MG, &mAmmo } };
 
-	if(*magMap[inHand] == maxBulletsInMag[inHand])
-	{
-		return 0;
-	}
-	else
-	{
-		if(*ammoMap[inHand] - (maxBulletsInMag[inHand] - *magMap[inHand]) >= 0)
-		{
-			*ammoMap[inHand] += *magMap[inHand] - maxBulletsInMag[inHand];
-			*magMap[inHand] = maxBulletsInMag[inHand];
-		}
-		else if(*ammoMap[inHand] == 0)
-		{
-			return 0;
-		}
-		else
-		{
-			*magMap[inHand] += *ammoMap[inHand];
-			*ammoMap[inHand] = 0;
-		}
+    if(*magMap[inHand] == maxBulletsInMag[inHand])
+    {
+        return 0;
+    }
+    else
+    {
+        if(*ammoMap[inHand] - (maxBulletsInMag[inHand] - *magMap[inHand]) >= 0)
+        {
+            *ammoMap[inHand] += *magMap[inHand] - maxBulletsInMag[inHand];
+            *magMap[inHand] = maxBulletsInMag[inHand];
+        }
+        else if(*ammoMap[inHand] == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            *magMap[inHand] += *ammoMap[inHand];
+            *ammoMap[inHand] = 0;
+        }
 
-		return 120;
-	}
+        return 120;
+    }
 
-	return 0;
+    return 0;
 }
 
 void BackPack::setWeapon(Weapon weapon)
 {
-	inHand = weapon;
+    inHand = weapon;
 }
 
 void BackPack::nextWeapon()
 {
-	std::map<Weapon, Weapon> nextWeapon { { Weapon::Pistol, Weapon::Shotgun },
-	                                      { Weapon::Shotgun, Weapon::Uzi },
-										  { Weapon::Uzi, Weapon::MG },
-										  { Weapon::MG, Weapon::Pistol } };
+    std::map<Weapon, Weapon> nextWeapon { { Weapon::Pistol, Weapon::Shotgun },
+                                          { Weapon::Shotgun, Weapon::Uzi },
+                                          { Weapon::Uzi, Weapon::MG },
+                                          { Weapon::MG, Weapon::Pistol } };
 
-	inHand = nextWeapon[inHand];
+    inHand = nextWeapon[inHand];
 }
 
 void BackPack::prevWeapon()
 {
-	std::map<Weapon, Weapon> nextWeapon { { Weapon::Pistol, Weapon::MG },
-										  { Weapon::Shotgun, Weapon::Pistol },
-										  { Weapon::Uzi, Weapon::Shotgun },
-										  { Weapon::MG, Weapon::Uzi } };
+    std::map<Weapon, Weapon> nextWeapon { { Weapon::Pistol, Weapon::MG },
+                                          { Weapon::Shotgun, Weapon::Pistol },
+                                          { Weapon::Uzi, Weapon::Shotgun },
+                                          { Weapon::MG, Weapon::Uzi } };
 
-	inHand = nextWeapon[inHand];
+    inHand = nextWeapon[inHand];
 }

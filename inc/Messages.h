@@ -7,27 +7,27 @@
 class Cmessages
 {
 private:
-	int time;
-	sf::Text txt;
-	unsigned int MAX;
-	float rozX;
-	float rozY;
-	sf::RectangleShape shape;
+    int time;
+    sf::Text txt;
+    unsigned int MAX;
+    float rozX;
+    float rozY;
+    sf::RectangleShape shape;
 
-	std::vector<std::string> message;
-	std::vector<sf::Color> colorM;
-	std::vector<bool> isEmpty;
-	sf::Font font;
-	float pos;
-
-public:
-	Cmessages(float xx, float yy);
-	~Cmessages();
+    std::vector<std::string> message;
+    std::vector<sf::Color> colorM;
+    std::vector<bool> isEmpty;
+    sf::Font font;
+    float pos;
 
 public:
-	void draw();
-	void addMessage(std::string text, sf::Color ccc);
-	void addEmptyMessage();
-	void erase();
+    Cmessages(float xx, float yy);
+    ~Cmessages();
+
+public:
+    void draw();
+    void addMessage(std::string text, sf::Color ccc);
+    void addEmptyMessage();
+    void erase();
 };
 

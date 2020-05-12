@@ -18,10 +18,10 @@ enum class State
 
 enum class GameEngineState
 {
-	Game,
-	Pause,
-	DeadPlayer,
-	EndLevel,
+    Game,
+    Pause,
+    DeadPlayer,
+    EndLevel,
     MainMenu
 };
 

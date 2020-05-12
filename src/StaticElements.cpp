@@ -17,12 +17,12 @@ StaticElements::~StaticElements(void)
 
 void StaticElements::setRescale(sf::VideoMode &  video)
 {
-	rescale = (float(video.height)/1080.f)/(sf::VideoMode::getDesktopMode().height/1080.f);
-	rescale_t = video.height/1080.f;
+    rescale = (float(video.height)/1080.f)/(sf::VideoMode::getDesktopMode().height/1080.f);
+    rescale_t = video.height/1080.f;
 }
 
 void StaticElements::initSetScale(sf::VideoMode &  video)
 {
-	rescale = (float(video.height)/1080.f);
-	rescale_t = video.height/1080.f;
+    rescale = (float(video.height)/1080.f);
+    rescale_t = video.height/1080.f;
 }

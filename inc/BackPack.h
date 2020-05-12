@@ -6,42 +6,42 @@
 class BackPack
 {
 private:
-	int pAmmo;
-	int pMag;
-	int sAmmo;
-	int sMag;
-	int uAmmo;
-	int uMag;
-	int mAmmo;
-	int mMag;
-	Weapon inHand;
-	sf::RectangleShape box;
-	sf::Vector2f position;
+    int pAmmo;
+    int pMag;
+    int sAmmo;
+    int sMag;
+    int uAmmo;
+    int uMag;
+    int mAmmo;
+    int mMag;
+    Weapon inHand;
+    sf::RectangleShape box;
+    sf::Vector2f position;
 
-	sf::Text life;
-	sf::Sprite boxS;
-	sf::Font font;
-	sf::Text txt;
-	sf::Text txtAmmo;
-
-public:
-	BackPack();
-	~BackPack();
+    sf::Text life;
+    sf::Sprite boxS;
+    sf::Font font;
+    sf::Text txt;
+    sf::Text txtAmmo;
 
 public:
-	Weapon getHand() { return inHand; }
-	float getWeaponScore() { return static_cast<float>(inHand); }
+    BackPack();
+    ~BackPack();
 
-	bool shot();
-	int reload();
-	void setWeapon(Weapon weapon);
+public:
+    Weapon getHand() { return inHand; }
+    float getWeaponScore() { return static_cast<float>(inHand); }
 
-	void nextWeapon();
-	void prevWeapon();
+    bool shot();
+    int reload();
+    void setWeapon(Weapon weapon);
 
-	void draw(int playerLife);
+    void nextWeapon();
+    void prevWeapon();
+
+    void draw(int playerLife);
 
 private:
-	std::string getWeaponInfoString();
+    std::string getWeaponInfoString();
 };
 

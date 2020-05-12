@@ -15,10 +15,10 @@ private:
     sf::Font font3;
 
     float rescale;
-	float rescale_t;
+    float rescale_t;
 
     sf::RenderTexture background;
-	sf::RenderTexture boxRT;
+    sf::RenderTexture boxRT;
 
     static void loadVideoMode(sf::VideoMode & video, sf::Uint32 & style);
     static Window & initialize();
@@ -47,7 +47,7 @@ public:
     float getRescale();
     float getRescaleT();
     void setRescale(sf::VideoMode &  video, sf::Uint32 & style);
-	void initSetScale(sf::VideoMode &  video);
+    void initSetScale(sf::VideoMode &  video);
 
     sf::RenderTexture & getBoxRT();
     sf::RenderTexture & getBackground();

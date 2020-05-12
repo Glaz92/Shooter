@@ -8,20 +8,20 @@
 class MainLoop
 {
 private:
-	State state;
-	MainMenu menu;
-	std::shared_ptr<GameEngine> game;
+    State state;
+    MainMenu menu;
+    std::shared_ptr<GameEngine> game;
 
-	GameState * getGameState();
+    GameState * getGameState();
 
 private:
-	MainLoop();
-	~MainLoop();
+    MainLoop();
+    ~MainLoop();
 
 public:
-	static MainLoop & get();
+    static MainLoop & get();
 
-	void run();
+    void run();
 };
 
 constexpr auto GetMainLoop = &MainLoop::get;

@@ -7,46 +7,46 @@
 class Player
 {
 private:
-	sf::Texture texture;
-	sf::Sprite character;
+    sf::Texture texture;
+    sf::Sprite character;
 
-	sf::Vector2f position;
-	b2Body * body;
+    sf::Vector2f position;
+    b2Body * body;
 
-	float speed;
+    float speed;
 
-	int life;
-
-public:
-	Player(b2World & world, sf::Vector2f pos);
-	~Player();
+    int life;
 
 public:
-	void draw(sf::View & view);
-	void control();
+    Player(b2World & world, sf::Vector2f pos);
+    ~Player();
 
-	b2Body * getBody() { return body; }
+public:
+    void draw(sf::View & view);
+    void control();
 
-	sf::Vector2f getPosition() { return position; }
-	float getRot() { return character.getRotation(); }
+    b2Body * getBody() { return body; }
 
-	void setWeapon(int i) { character.setTextureRect(sf::IntRect(i*64,0,64,64)); }
+    sf::Vector2f getPosition() { return position; }
+    float getRot() { return character.getRotation(); }
 
-	int getLife() { return life; }
+    void setWeapon(int i) { character.setTextureRect(sf::IntRect(i*64,0,64,64)); }
 
-	void setLife(int x) { life = x; }
+    int getLife() { return life; }
 
-	void changeLife(int x) 
-	{ 
-		life += x; 
-		if(life>200) life = 200; 
-		if(life<1)
-		{
-			life = 0;
-			character.setTextureRect(sf::IntRect(0,64,128,64));
-		}
-	
-	}
+    void setLife(int x) { life = x; }
+
+    void changeLife(int x) 
+    { 
+        life += x; 
+        if(life>200) life = 200; 
+        if(life<1)
+        {
+            life = 0;
+            character.setTextureRect(sf::IntRect(0,64,128,64));
+        }
+    
+    }
 
 };
 

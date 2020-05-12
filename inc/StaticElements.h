@@ -5,18 +5,18 @@
 class StaticElements
 {
 public:
-	static sf::RenderTexture background;
-	static sf::RenderTexture boxRT;
+    static sf::RenderTexture background;
+    static sf::RenderTexture boxRT;
 
-	static float rescale;
-	static float rescale_t;
-
-public:
-	StaticElements(void);
-	~StaticElements(void);
+    static float rescale;
+    static float rescale_t;
 
 public:
-	static void setRescale(sf::VideoMode &  video);
-	static void initSetScale(sf::VideoMode &  video);
+    StaticElements(void);
+    ~StaticElements(void);
+
+public:
+    static void setRescale(sf::VideoMode &  video);
+    static void initSetScale(sf::VideoMode &  video);
 };
 

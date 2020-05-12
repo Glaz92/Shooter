@@ -23,59 +23,59 @@
 class GameEngine : public GameState
 {
 private:
-	b2World world;
-	std::string playerName;
-	int reloadTime;
-	GameEngineState state;
-	Cmessages messages;
+    b2World world;
+    std::string playerName;
+    int reloadTime;
+    GameEngineState state;
+    Cmessages messages;
 
-	sf::RectangleShape reloadBar;
-	sf::View view;
-	std::vector<BloodAnimation> blood;
-	std::list<Bullet> bullets;
-	std::shared_ptr<Player> player;
-	Textures textures;
-	MouseAim aim;
-	std::vector<Character> characters;
-	BackPack backPack;
-	sf::Sound sound;				
-	sf::Sound footstep;
-	sf::Music backMusic;
-	Score score;
+    sf::RectangleShape reloadBar;
+    sf::View view;
+    std::vector<BloodAnimation> blood;
+    std::list<Bullet> bullets;
+    std::shared_ptr<Player> player;
+    Textures textures;
+    MouseAim aim;
+    std::vector<Character> characters;
+    BackPack backPack;
+    sf::Sound sound;                
+    sf::Sound footstep;
+    sf::Music backMusic;
+    Score score;
 
-	float timeStep;
-	float deltaCam;
+    float timeStep;
+    float deltaCam;
 
-	sf::Clock clock;
-	GameMenu gameMenu;
-	Map map;
-	Sounds sounds;
-
-public:
-	GameEngine(std::string _playerName);
-	~GameEngine();
+    sf::Clock clock;
+    GameMenu gameMenu;
+    Map map;
+    Sounds sounds;
 
 public:
-	State run();
-	std::string getName() const;
+    GameEngine(std::string _playerName);
+    ~GameEngine();
+
+public:
+    State run();
+    std::string getName() const;
 
 private:
-	void draw();
-	void loadFromFile();
+    void draw();
+    void loadFromFile();
 
-	void selectWeapon();
-	void shot();
-	void newBullets(int & timeShot);
+    void selectWeapon();
+    void shot();
+    void newBullets(int & timeShot);
 
-	State game();
-	State pause();
-	State deadPlayer();
-	State endLevel();
+    State game();
+    State pause();
+    State deadPlayer();
+    State endLevel();
 
-	void setView();
-	void gameLogic();
-	bool clockRestart();
-	void control();
-	void checkGameStatus();
+    void setView();
+    void gameLogic();
+    bool clockRestart();
+    void control();
+    void checkGameStatus();
 };
 

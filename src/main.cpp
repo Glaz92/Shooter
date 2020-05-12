@@ -2,7 +2,7 @@
 
 int main()
 {
-	MainLoop::get().run();
+    MainLoop::get().run();
 
-	return 0;
+    return 0;
 }
