@@ -5,33 +5,31 @@
 class CheckBox
 {
 private:
-	sf::Vector2f position;
-	sf::Vector2f size;
+    sf::Vector2f position;
+    sf::Vector2f size;
 
-	sf::RectangleShape button;
-	sf::RectangleShape active;
-	sf::Font font;
-	sf::Text txt;
+    sf::RectangleShape button;
+    sf::RectangleShape active;
+    sf::Font font;
+    sf::Text txt;
 
-	bool status;
-
-public:
-	CheckBox(sf::Vector2f pos, std::string text);
-//	CheckBox(sf::Vector2f pos, string text, sf::Vector2f s);
-//	CheckBox(sf::Vector2f pos, string text, sf::Vector2f s,bool frameless);
-	~CheckBox(void);
+    bool status;
 
 public:
-	void draw();
-	bool isClick();
+    CheckBox(sf::Vector2f pos, std::string text);
+    ~CheckBox(void);
 
-	void drawInPlace(sf::Vector2f pos);
-	void setPosition(sf::Vector2f pos) { button.setPosition(pos); active.setPosition(pos.x+size.y*0.2,pos.y+size.y*0.2); txt.setPosition(pos.x+size.y+8,pos.y+1); }
+public:
+    void draw();
+    bool isClick();
 
-	std::string getString() { return txt.getString(); }
+    void drawInPlace(sf::Vector2f pos);
+    void setPosition(sf::Vector2f pos) { button.setPosition(pos); active.setPosition(pos.x+size.y*0.2,pos.y+size.y*0.2); txt.setPosition(pos.x+size.y+8,pos.y+1); }
 
-	bool getStatus() { return status; }
-	void setStatus(bool s) { status = s; }
+    std::string getString() { return txt.getString(); }
+
+    bool getStatus() { return status; }
+    void setStatus(bool s) { status = s; }
 
 };
 

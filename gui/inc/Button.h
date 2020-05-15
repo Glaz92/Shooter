@@ -5,39 +5,39 @@
 class Button
 {
 private:
-	sf::Vector2f position;
-	sf::Vector2f size;
+    sf::Vector2f position;
+    sf::Vector2f size;
 
-	sf::RectangleShape button;
-	sf::Text txt;
+    sf::RectangleShape button;
+    sf::Text txt;
 
-	sf::Color backColor;
+    sf::Color backColor;
 
-	float speed;
-
-public:
-	Button(sf::Vector2f pos, std::string text);
-	Button(sf::Vector2f pos, std::string text, sf::Vector2f s);
-	Button(sf::Vector2f pos, std::string text, sf::Vector2f s, int font, int fontSize);
-	Button(sf::Vector2f pos, std::string text, sf::Vector2f s, int font, int fontSize, sf::Color fontColor, sf::Color _backColor);
-	~Button();
+    float speed;
 
 public:
-	void draw();
-	bool isClick();
-	bool isClickRight();
+    Button(sf::Vector2f pos, std::string text);
+    Button(sf::Vector2f pos, std::string text, sf::Vector2f s);
+    Button(sf::Vector2f pos, std::string text, sf::Vector2f s, int font, int fontSize);
+    Button(sf::Vector2f pos, std::string text, sf::Vector2f s, int font, int fontSize, sf::Color fontColor, sf::Color _backColor);
+    ~Button();
 
-	bool isPressed();
-	bool isPressedRight();
+public:
+    void draw();
+    bool isClick();
+    bool isClickRight();
 
-	void drawInPlace(sf::Vector2f pos);
-	void drawInPlace(sf::Vector2f pos, sf::Vector2f drawPos);
+    bool isPressed();
+    bool isPressedRight();
 
-	std::string getString() { return txt.getString(); }
+    void drawInPlace(sf::Vector2f pos);
+    void drawInPlace(sf::Vector2f pos, sf::Vector2f drawPos);
 
-	void setPosition(sf::Vector2f pos) { button.setPosition(pos); txt.setPosition(pos.x+10, pos.y+1); }
+    std::string getString() { return txt.getString(); }
 
-	void setString(std::string _txt) { txt.setString(_txt); }
+    void setPosition(sf::Vector2f pos) { button.setPosition(pos); txt.setPosition(pos.x+10, pos.y+1); }
 
-	void rescale(float x);
+    void setString(std::string _txt) { txt.setString(_txt); }
+
+    void rescale(float x);
 };
