@@ -163,199 +163,211 @@ void MainMenu::deletePlayer()
     }
 }
 
-State MainMenu::buttons()
+void MainMenu::settingsButtonIsClicked()
 {
-    if(startGame.isClick())
+    for(unsigned int i = 0; i < video.size(); i++)
     {
-        start.setString("Start");
+        if(sf::VideoMode::getDesktopMode() == video[i])
+        {
+            videoMode = i;
+            break;
+        }
+    }
 
-        state = MenuState::StartGame;
+    state = MenuState::Settings;
+
+    std::ostringstream ss;
+    ss.str("");
+    ss << "Resolution:\t\t" << video[videoMode].width << " x " << video[videoMode].height << " x " << video[videoMode].bitsPerPixel;
+
+    resolution.setString(ss.str());
+    newstyle = style;
+
+    fullscreen.setString(style == sf::Style::Fullscreen ?
+                         "Fullscreen:\t\ton" :
+                         "Fullscreen:\t\toff");
+}
+
+void MainMenu::mainMenuBasicButtons()
+{
+    auto playerNameAndState = [&](auto str, auto _state, auto input)
+    {
+        start.setString(str);
+
+        state = _state;
 
         playerName.setAcvite(false);
-        playerName.setInput(true);
+        playerName.setInput(input);
         playerName.setString("");
+    };
+
+    if(startGame.isClick())
+    {
+        playerNameAndState("Start", MenuState::StartGame, true);
     }
     if(loadGame.isClick())
     {
-        state = MenuState::LoadGame;
-        start.setString("Load");
-
-        playerName.setAcvite(false);
-        playerName.setInput(false);
-        playerName.setString("");
-
+        playerNameAndState("Load", MenuState::LoadGame, false);
         loadPlayerList();
     }
     if(settings.isClick())
     {
-        for(unsigned int i = 0; i < video.size(); i++)
-        {
-            if(sf::VideoMode::getDesktopMode() == video[i])
-            {
-                videoMode = i;
-                break;
-            }
-        }
-        state = MenuState::Settings;
-
-        std::ostringstream ss;
-            ss.str("");
-            ss << "Resolution:\t\t" << video[videoMode].width << " x " << video[videoMode].height << " x " << video[videoMode].bitsPerPixel;
-
-        resolution.setString(ss.str());
-
-        newstyle = style;
-
-        if(style == sf::Style::Fullscreen)
-            fullscreen.setString("Fullscreen:\t\ton");
-        else
-            fullscreen.setString("Fullscreen:\t\toff");
+        settingsButtonIsClicked();
     }
     if(exitGame.isClick())
     {
         GetWindow().close();
     }
+}
 
-    switch(state)
+bool MainMenu::startOrLoadGame()
+{
+    auto runGame = [&]()
     {
-    case MenuState::StartGame:
         if(start.isClick())
         {
             if(playerName.getString() != "")
             {
                 game = std::make_shared<GameEngine>(playerName.getString());
-                return State::Game;
+                return true;
             }
         }
-        break;
-    case MenuState::LoadGame:
+
+        return false;
+    };
+
+    if(state == MenuState::LoadGame)
+    {
         playerName.setString(playersList.getSelect());
-        if(start.isClick())
-        {
-            if(playerName.getString() != "")
-            {
-                game = std::make_shared<GameEngine>(playerName.getString());
-                return State::Game;
-            }
-        }
         if(deleteGame.isClick())
         {
             deletePlayer();
         }
-        break;
-    case MenuState::Menu: break;
-    case MenuState::Settings:
-        if(resolution.isClickRight())
-        {
-            if(videoMode < static_cast<int>(video.size()) - 1)
-                videoMode++;
-            else
-                videoMode = 0;
-
-            std::ostringstream ss;
-            ss.str("");
-            ss << "Resolution:\t\t" << video[videoMode].width << " x " << video[videoMode].height << " x " << video[videoMode].bitsPerPixel;
-
-            resolution.setString(ss.str());
-
-        }
-        if(resolution.isClick())
-        {
-            if(videoMode > 0)
-                videoMode--;
-            else
-                videoMode = video.size()-1;
-
-            std::ostringstream ss;
-            ss.str("");
-            ss << "Resolution:\t\t" << video[videoMode].width << " x " << video[videoMode].height << " x " << video[videoMode].bitsPerPixel;
-
-            resolution.setString(ss.str());
-        }
-        if(volume.isPressed())
-        {
-            if(vol < 100)
-            {
-                vol += 1;
-                std::ostringstream ss;
-                ss.str("");
-                ss << "Volume:\t\t\t" << vol << "%";
-
-                volume.setString(ss.str());
-            }
-        }
-        if(volume.isPressedRight())
-        {
-            if(vol > 0)
-            {
-                vol -= 1;
-                std::ostringstream ss;
-                ss.str("");
-                ss << "Volume:\t\t\t" << vol << "%";
-
-                volume.setString(ss.str());
-            }
-
-        }
-        if(fullscreen.isClick())
-        {
-            if(newstyle == sf::Style::Fullscreen)
-            {
-                fullscreen.setString("Fullscreen:\t\toff");
-                newstyle = sf::Style::Default;
-            }
-            else
-            {
-                fullscreen.setString("Fullscreen:\t\ton");
-                newstyle = sf::Style::Fullscreen;
-            }
-        }
-        if(fullscreen.isClickRight())
-        {
-            if(newstyle == sf::Style::Fullscreen)
-            {
-                fullscreen.setString("Fullscreen:\t\toff");
-                newstyle = sf::Style::Default;
-            }
-            else
-            {
-                fullscreen.setString("Fullscreen:\t\ton");
-                newstyle = sf::Style::Fullscreen;
-            }
-        }
-        if(saveSettings.isClick())
-        {
-            GetWindow().setRescale(video[videoMode], newstyle);
-
-        //    Window.create(video[videoMode],"Shooter",newstyle);
-            style = newstyle;
-        //    Window.setMouseCursorVisible(false);
-            
-            std::string fullScreen = "false";
-
-            if(newstyle == sf::Style::Fullscreen)
-                fullScreen = "true";
-
-            std::fstream conf;
-            conf.open("data\\Configurations\\conf.txt",std::ios::out);
-
-            conf << "width= " << video[videoMode].width << "\n"
-                << "height= " << video[videoMode].height << "\n"
-                << "bitsPerPixel= " << video[videoMode].bitsPerPixel << "\n"
-                << "volume= " << vol << "\n"
-                << "fullScreen= " << fullScreen << std::endl;
-
-            sf::Listener::setGlobalVolume(vol);
-
-            conf.close();
-
-            rescaleAll();
-        }  
-        break;
-        
     }
 
-    return State::MainMenu;
+    return (state == MenuState::LoadGame || state == MenuState::StartGame) ? runGame() : false;
+}
+
+void MainMenu::settingsMenu()
+{
+    if(resolution.isClickRight())
+    {
+        if(videoMode < static_cast<int>(video.size()) - 1)
+            videoMode++;
+        else
+            videoMode = 0;
+
+        std::ostringstream ss;
+        ss.str("");
+        ss << "Resolution:\t\t" << video[videoMode].width << " x " << video[videoMode].height << " x " << video[videoMode].bitsPerPixel;
+
+        resolution.setString(ss.str());
+
+    }
+    if(resolution.isClick())
+    {
+        if(videoMode > 0)
+            videoMode--;
+        else
+            videoMode = video.size()-1;
+
+        std::ostringstream ss;
+        ss.str("");
+        ss << "Resolution:\t\t" << video[videoMode].width << " x " << video[videoMode].height << " x " << video[videoMode].bitsPerPixel;
+
+        resolution.setString(ss.str());
+    }
+    if(volume.isPressed())
+    {
+        if(vol < 100)
+        {
+            vol += 1;
+            std::ostringstream ss;
+            ss.str("");
+            ss << "Volume:\t\t\t" << vol << "%";
+
+            volume.setString(ss.str());
+        }
+    }
+    if(volume.isPressedRight())
+    {
+        if(vol > 0)
+        {
+            vol -= 1;
+            std::ostringstream ss;
+            ss.str("");
+            ss << "Volume:\t\t\t" << vol << "%";
+
+            volume.setString(ss.str());
+        }
+
+    }
+    if(fullscreen.isClick())
+    {
+        if(newstyle == sf::Style::Fullscreen)
+        {
+            fullscreen.setString("Fullscreen:\t\toff");
+            newstyle = sf::Style::Default;
+        }
+        else
+        {
+            fullscreen.setString("Fullscreen:\t\ton");
+            newstyle = sf::Style::Fullscreen;
+        }
+    }
+    if(fullscreen.isClickRight())
+    {
+        if(newstyle == sf::Style::Fullscreen)
+        {
+            fullscreen.setString("Fullscreen:\t\toff");
+            newstyle = sf::Style::Default;
+        }
+        else
+        {
+            fullscreen.setString("Fullscreen:\t\ton");
+            newstyle = sf::Style::Fullscreen;
+        }
+    }
+    if(saveSettings.isClick())
+    {
+        GetWindow().setRescale(video[videoMode], newstyle);
+
+    //    Window.create(video[videoMode],"Shooter",newstyle);
+        style = newstyle;
+    //    Window.setMouseCursorVisible(false);
+        
+        std::string fullScreen = "false";
+
+        if(newstyle == sf::Style::Fullscreen)
+            fullScreen = "true";
+
+        std::fstream conf;
+        conf.open("data\\Configurations\\conf.txt",std::ios::out);
+
+        conf << "width= " << video[videoMode].width << "\n"
+            << "height= " << video[videoMode].height << "\n"
+            << "bitsPerPixel= " << video[videoMode].bitsPerPixel << "\n"
+            << "volume= " << vol << "\n"
+            << "fullScreen= " << fullScreen << std::endl;
+
+        sf::Listener::setGlobalVolume(vol);
+
+        conf.close();
+
+        rescaleAll();
+    }
+}
+
+State MainMenu::buttons()
+{
+    mainMenuBasicButtons();
+
+    if(state == MenuState::Settings)
+    {
+        settingsMenu();
+    }
+
+    return startOrLoadGame() ? State::Game : State::MainMenu;
 }
 
 void MainMenu::rescaleAll()

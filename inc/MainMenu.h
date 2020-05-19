@@ -55,6 +55,12 @@ private:
 
     void loadPlayerList();
     void deletePlayer();
+
+    void settingsButtonIsClicked();
+    void mainMenuBasicButtons();
+
+    bool startOrLoadGame();
+    void settingsMenu();
     State buttons();
 
     void rescaleAll();
