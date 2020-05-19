@@ -29,9 +29,7 @@ MainMenu::MainMenu(std::shared_ptr<GameEngine> & _game)
     title.setFillColor(sf::Color::White);
 
     for(unsigned int i=0; i < sf::VideoMode::getFullscreenModes().size(); i++)
-//        if(sf::VideoMode::getFullscreenModes()[i].width>750 && sf::VideoMode::getFullscreenModes()[i].bitsPerPixel>15 && 
-//            sf::VideoMode::getFullscreenModes()[i].width<1400)
-            video.push_back(sf::VideoMode::getFullscreenModes()[i]);  
+        video.push_back(sf::VideoMode::getFullscreenModes()[i]);  
 
     for(unsigned int i=0; i < video.size(); i++)
     {
@@ -67,27 +65,6 @@ State MainMenu::run()
 
     draw();
     return buttons();
-
-    return State::MainMenu;
-}
-
-void MainMenu::mainLoop()
-{
-    while(GetWindow().isOpen())
-    {
-        sf::Event ev;
-
-        while(GetWindow().pollEvent(ev) && !playerName.getStatus())
-            if(ev.type == sf::Event::Closed)
-                GetWindow().close();
-
-        GetWindow().clear(sf::Color(14,14,14));
-
-        buttons();
-        draw();
-
-        GetWindow().display();
-    }
 }
 
 void MainMenu::draw()
@@ -124,6 +101,68 @@ void MainMenu::draw()
     aim.draw();
 }
 
+void MainMenu::loadPlayerList()
+{
+    playersList.clear();
+
+    std::fstream load;
+    load.open("data\\Configurations\\players.txt");
+
+    std::string tmp;
+    while(load >> tmp)
+    {
+        if(tmp == "player=")
+        {
+            load >> tmp;
+            playersList.addElement(tmp);
+        }
+    }
+
+    load.close();
+}
+
+void MainMenu::deletePlayer()
+{
+    if(playerName.getString() != "")
+    {
+        std::fstream load;
+        load.open("data\\Configurations\\players.txt");
+
+        std::vector<std::string> tmpString;
+        std::ostringstream ss;
+        std::string tmpS;
+
+        while(load >> tmpS)
+        {
+            ss.str("");
+            if(tmpS == "player=")
+            {
+                ss << tmpS << " "; load >> tmpS; 
+                if(tmpS == playersList.getSelect())
+                {
+                    continue;
+                }
+                ss << tmpS << " "; load >> tmpS;
+                if(tmpS == "level=")
+                {
+                    ss << tmpS << " "; load >> tmpS; ss << tmpS;
+                    tmpString.push_back(ss.str());
+                }
+            }
+        }
+
+        load.close();
+        load.open("data\\Configurations\\players.txt", std::ios::out);
+        for(const auto & str : tmpString)
+        {
+            load << str << std::endl;
+        }
+        load.close();
+
+        loadPlayerList();
+    }
+}
+
 State MainMenu::buttons()
 {
     if(startGame.isClick())
@@ -135,9 +174,6 @@ State MainMenu::buttons()
         playerName.setAcvite(false);
         playerName.setInput(true);
         playerName.setString("");
-    //    GameEngine newGame("test");
-
-    //    newGame.mainLoop();
     }
     if(loadGame.isClick())
     {
@@ -148,30 +184,15 @@ State MainMenu::buttons()
         playerName.setInput(false);
         playerName.setString("");
 
-        playersList.clear();
-        
-        std::fstream loadP;
-        loadP.open("data\\Configurations\\players.txt");
-
-        std::string tmp;
-        while(loadP >> tmp)
-        {
-            if(tmp == "player=")
-            {
-                loadP >> tmp;
-                playersList.addElement(tmp);
-            }
-        }
-
-        loadP.close();
+        loadPlayerList();
     }
     if(settings.isClick())
     {
-        for(unsigned int i=0; i < video.size(); i++)
+        for(unsigned int i = 0; i < video.size(); i++)
         {
             if(sf::VideoMode::getDesktopMode() == video[i])
             {
-                videoMode=i;
+                videoMode = i;
                 break;
             }
         }
@@ -202,13 +223,8 @@ State MainMenu::buttons()
         {
             if(playerName.getString() != "")
             {
-            /*    while(true)
-                {
-                    GameEngine newGame(playerName.getString());
-                    if(!newGame.mainLoop())
-                        break;
-                } */ game = std::make_shared<GameEngine>(playerName.getString()); return State::Game;
-                GetWindow().setDefaultView();
+                game = std::make_shared<GameEngine>(playerName.getString());
+                return State::Game;
             }
         }
         break;
@@ -218,68 +234,13 @@ State MainMenu::buttons()
         {
             if(playerName.getString() != "")
             {
-            /*    while(true)
-                {
-                    GameEngine newGame(playerName.getString());
-                    if(!newGame.mainLoop())
-                        break;
-                } */ game = std::make_shared<GameEngine>(playerName.getString()); return State::Game;
-                GetWindow().setDefaultView();
-
+                game = std::make_shared<GameEngine>(playerName.getString());
+                return State::Game;
             }
         }
         if(deleteGame.isClick())
         {
-            if(playerName.getString() != "")
-            {
-                std::fstream loadP;
-                loadP.open("data\\Configurations\\players.txt");
-
-                std::vector<std::string> tmpString;
-                std::ostringstream ss;
-                std::string tmpS;
-
-                while(loadP >> tmpS)
-                {
-                    ss.str("");
-                    if(tmpS == "player=")
-                    {
-                        ss << tmpS << " "; loadP >> tmpS; 
-                        if(tmpS == playersList.getSelect())
-                            continue;
-                        ss << tmpS << " "; loadP >> tmpS;
-                        if(tmpS == "level=")
-                        {
-                            ss << tmpS << " "; loadP >> tmpS; ss << tmpS;
-                            tmpString.push_back(ss.str());
-                        }
-                    }
-                }
-
-                loadP.close();
-                loadP.open("data\\Configurations\\players.txt",std::ios::out);
-                for(unsigned int i=0; i < tmpString.size(); i++)
-                {
-                    loadP << tmpString[i] << std::endl;
-                }
-                loadP.close();
-
-                playersList.clear();
-        
-                loadP.open("data\\Configurations\\players.txt");
-
-                std::string tmp;
-                while(loadP >> tmp)
-                {
-                    if(tmp == "player=")
-                    {
-                        loadP >> tmp;
-                        playersList.addElement(tmp);
-                    }
-                }
-
-                loadP.close();
-            }
+            deletePlayer();
         }
         break;
     case MenuState::Menu: break;

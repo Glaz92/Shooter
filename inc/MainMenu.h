@@ -48,11 +48,13 @@ public:
     ~MainMenu(void);
 
 public:
-    void mainLoop();
     State run();
 
 private:
     void draw();
+
+    void loadPlayerList();
+    void deletePlayer();
     State buttons();
 
     void rescaleAll();
