@@ -73,7 +73,6 @@ void TxtBox::inputTxt()
             std::string tmpS=ss.str();
             ss.str("");
             ss << tmpS.substr(0,tmpS.length()-1);
-        //    sf::sleep(sf::milliseconds(100));
         }
         if(ev.type == sf::Event::TextEntered)
         {

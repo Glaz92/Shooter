@@ -44,7 +44,7 @@ private:
     sf::Text txt;
 
 public:
-    MainMenu(std::shared_ptr<GameEngine> & _game); //sf::Uint32 & _style);
+    MainMenu(std::shared_ptr<GameEngine> & _game);
     ~MainMenu(void);
 
 public:

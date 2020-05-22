@@ -13,8 +13,8 @@ private:
     sf::Vector2f pos;
 
 public:
-    MouseAim(void);
-    ~MouseAim(void);
+    MouseAim();
+    ~MouseAim();
 
 public:
     void draw();

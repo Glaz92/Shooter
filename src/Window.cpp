@@ -127,13 +127,13 @@ void Window::loadVideoMode(sf::VideoMode & video, sf::Uint32 & style)
         if(tmpS=="width=")
         {
             conf >> video.width;
-            if(video.width>790 || video.width< 1400) //=sf::VideoMode::getDesktopMode().width)
+            if(video.width>790 || video.width< 1400)
                 success++;
         }
         else if(tmpS=="height=")
         {
             conf >> video.height;
-            if(video.height>590 || video.height< 800) //=sf::VideoMode::getDesktopMode().height)
+            if(video.height>590 || video.height< 800)
                 success++;
         }
         else if(tmpS=="bitsPerPixel=")

@@ -49,6 +49,7 @@ GameEngineState GameMenu::pause()
     }
     if(BmainMenu.isClick())
     {
+        GetWindow().setDefaultView();
         return GameEngineState::MainMenu;
     }
     if(BquitGame.isClick())
@@ -82,6 +83,7 @@ State GameMenu::deadPlayer()
     }
     if(BmainMenu.isClick())
     {
+        GetWindow().setDefaultView();
         return State::MainMenu;
     }
     if(BquitGame.isClick())

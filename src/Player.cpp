@@ -1,6 +1,5 @@
 #include "Player.h"
 
-
 Player::Player(b2World & world, sf::Vector2f pos)
     : position(pos), speed(8), life(200)
 {
@@ -15,9 +14,6 @@ Player::Player(b2World & world, sf::Vector2f pos)
 
     b2CircleShape bodyShape;
     bodyShape.m_radius = 0.3f;
-//    c.m_p.Set( 0.15, 0.15 );
-//    b2PolygonShape bodyShape; 
- //   bodyShape.SetAsBox( 0.625f / 2, 0.625f / 2 );
 
     body->CreateFixture(&bodyShape,1.0f);
 
@@ -29,7 +25,7 @@ Player::Player(b2World & world, sf::Vector2f pos)
 }
 
 
-Player::~Player(void)
+Player::~Player()
 {
 }
 

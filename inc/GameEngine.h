@@ -14,7 +14,6 @@
 #include "BloodAnimation.h"
 #include "Button.h"
 #include "Messages.h"
-#include "Item.h"
 #include "Score.h"
 #include "GameMenu.h"
 #include "EnumClasses.h"
