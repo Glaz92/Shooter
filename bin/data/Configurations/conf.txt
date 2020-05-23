@@ -1,5 +1,5 @@
 width= 1920
 height= 1080
-bitsPerPixel= 8
-volume= 14
+bitsPerPixel= 32
+volume= 4
 fullScreen= true

@@ -57,8 +57,8 @@ std::string BackPack::getWeaponInfoString()
     using ammoInformation = std::tuple<std::string, int, int>;
     std::map<Weapon, ammoInformation> ammunictionMap { { Weapon::Pistol, { "Pistol", pMag, pAmmo } },
                                                        { Weapon::Shotgun, { "Shotgun", sMag, sAmmo } },
-                                                        { Weapon::Uzi, { "Uzi", uMag, uAmmo } },
-                                                         { Weapon::MG, { "MG", mMag, mAmmo } } };
+                                                       { Weapon::Uzi, { "Uzi", uMag, uAmmo } },
+                                                       { Weapon::MG, { "MG", mMag, mAmmo } } };
 
     ss << std::get<0>(ammunictionMap[inHand]) << std::endl 
        << std::get<1>(ammunictionMap[inHand]) << "/" 
@@ -97,7 +97,7 @@ int BackPack::reload()
 
     std::map<Weapon, int*> ammoMap { { Weapon::Pistol, &pAmmo },
                                      { Weapon::Shotgun, &sAmmo },
-                                      { Weapon::Uzi, &uAmmo },
+                                     { Weapon::Uzi, &uAmmo },
                                      { Weapon::MG, &mAmmo } };
 
     if(*magMap[inHand] == maxBulletsInMag[inHand])

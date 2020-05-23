@@ -7,7 +7,7 @@
 bool Window::instance = false;
 
 Window::Window(sf::VideoMode & video, sf::Uint32 & style)
-    : window(video,"Shooter",style)
+    : window(video, "Shooter", style), initStyle(style)
 {
     font0.loadFromFile("data/font/calibri.ttf");
     font1.loadFromFile("data/font/WC_RoughTrad.otf");
@@ -190,7 +190,7 @@ void Window::setRescale(sf::VideoMode &  video, sf::Uint32 & style)
     rescale = (float(video.height)/1080.f)/(sf::VideoMode::getDesktopMode().height/1080.f);
     rescale_t = video.height/1080.f;
 
-    window.create(video,"Shooter", style);
+    window.create(video, "Shooter", style);
 
     window.setMouseCursorVisible(false);
 }
@@ -213,15 +213,15 @@ sf::RenderTexture & Window::getBackground()
 
 float rad2deg(float rad)
 {
-    return (360/(2*3.14))*rad;
+    return (360 / (2 * 3.14)) * rad;
 }
 
 float deg2rad(float deg)
 {
-    return ((2*3.14)/360)*deg;
+    return ((2 * 3.14) / 360) * deg;
 } 
 
 float calculateDistance(sf::Vector2f v1, sf::Vector2f v2)
 {
-    return sqrt((v2.x-v1.x)*(v2.x-v1.x)+(v2.y-v1.y)*(v2.y-v1.y));
+    return sqrt((v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y));
 }

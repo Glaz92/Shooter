@@ -15,7 +15,7 @@ int Score::calculate(float weapon, float h, int base)
     if(h>300)
         h = 0;
     
-    switch(int(weapon))
+    switch(static_cast<int>(weapon))
     {
     case 1:
         weapon = 2;

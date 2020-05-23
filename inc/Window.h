@@ -20,6 +20,8 @@ private:
     sf::RenderTexture background;
     sf::RenderTexture boxRT;
 
+    sf::Uint32 initStyle;
+
     static void loadVideoMode(sf::VideoMode & video, sf::Uint32 & style);
     static Window & initialize();
 
@@ -51,6 +53,8 @@ public:
 
     sf::RenderTexture & getBoxRT();
     sf::RenderTexture & getBackground();
+
+    sf::Uint32 getStyle() { return initStyle; }
 };
 
 constexpr auto GetWindow = &Window::get;

@@ -60,6 +60,12 @@ private:
     void mainMenuBasicButtons();
 
     bool startOrLoadGame();
+
+    void saveSettingsToFile();
+    void volumeSeetings();
+    void fullscreenSettings();
+    void resolutionSettings();
+
     void settingsMenu();
     State buttons();
 

@@ -2,7 +2,7 @@
 #include <sstream>
 #include <io.h>
 
-Textures::Textures(void)
+Textures::Textures()
 {
     FindAndLoad(top32, "data\\Textures\\top32\\*.png","data\\Textures\\top32\\");
     FindAndLoad(top64, "data\\Textures\\top64\\*.png","data\\Textures\\top64\\");
@@ -15,7 +15,7 @@ Textures::Textures(void)
 }
 
 
-Textures::~Textures(void)
+Textures::~Textures()
 {
 }
 
