@@ -157,10 +157,12 @@ void Character::unAlarmedBehavior(Player & player, std::vector<Character> & char
 
 void Character::alarmedSeePlayer(Player & player, std::list<Bullet> & bullets, std::vector<Character> & characters, std::vector<Element> & Elements)
 {
+    constexpr int ALARM_MAX_VALUE = 450;
+
     if(calculateDistance(player.getPosition(), character.getPosition()) < 150)
     {
         shot(bullets,characters,Elements);
-        alarm = 450;
+        alarm = ALARM_MAX_VALUE;
     }
     else
     {
@@ -174,7 +176,7 @@ void Character::alarmedSeePlayer(Player & player, std::list<Bullet> & bullets, s
         }
         else
         {
-            alarm = 450;
+            alarm = ALARM_MAX_VALUE;
             tmpPoints[tmpPoints.size()-1] = character.getPosition();
             tmpPoints.push_back(player.getPosition());
             setBodyLinearVelocity(tmpPoints[tmpPoints.size()-1]);

@@ -23,10 +23,14 @@ public:
     ~GameMenu();
 
 public:
-    void setPosition();
     GameEngineState pause();
     State deadPlayer();
 
 private:
+    void pauseMenuDraw();
+    GameEngineState pauseMenuButtons();
+
+    void deadPlayerMenuDraw();
+    State deadPlayerMenuButtons();
 
 };

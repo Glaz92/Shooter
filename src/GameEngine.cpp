@@ -6,7 +6,7 @@
 
 GameEngine::GameEngine(std::string _playerName)
     : world(b2Vec2(0,0)), playerName(_playerName), reloadTime(0), state(GameEngineState::Game),
-    messages(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height)
+    messages(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height)
 {
     footstep.setBuffer(sounds.Sfoot);
 

@@ -23,9 +23,7 @@ private:
     int animStep;
     std::vector<sf::Vector2f> points;
     sf::IntRect rect;
-    int alarm;        // jezeli 0, to spokojny, jezeli nie widzi gracza, to wartosc spada
-                    // do czasu uzyskania wartosci 0
-
+    int alarm;
     int waitTime;
     float speed;
     bool down;
@@ -46,8 +44,6 @@ private:
 public:
     Character(b2World & _world, sf::Vector2f _position, float _rot, Textures & _textures, std::string fileName, sf::IntRect _rect, bool _anim, int _animStep, std::vector<sf::Vector2f> _points);
     ~Character();
-
-//    Character & operator=(const Character & tmp) { return * this; }
 
 public:
     void drawIfDead() { if(dead) draw(); }

@@ -26,7 +26,7 @@ GameMenu::~GameMenu()
 
 }
 
-GameEngineState GameMenu::pause()
+void GameMenu::pauseMenuDraw()
 {
     title.setString("Pause");
     shapeTmp.setPosition(GetWindow().getViewCenter());
@@ -42,7 +42,10 @@ GameEngineState GameMenu::pause()
     Bresume.draw();
     BmainMenu.draw();
     BquitGame.draw();
+}
 
+GameEngineState GameMenu::pauseMenuButtons()
+{
     if(Bresume.isClick())
     {
         return GameEngineState::Game;
@@ -60,7 +63,13 @@ GameEngineState GameMenu::pause()
     return GameEngineState::Pause;
 }
 
-State GameMenu::deadPlayer()
+GameEngineState GameMenu::pause()
+{
+    pauseMenuDraw();
+    return pauseMenuButtons();
+}
+
+void GameMenu::deadPlayerMenuDraw()
 {
     title.setString("You are dead!");
     shapeTmp.setPosition(GetWindow().getViewCenter());
@@ -76,7 +85,10 @@ State GameMenu::deadPlayer()
     BtryAgain.draw();
     BmainMenu.draw();
     BquitGame.draw();
+}
 
+State GameMenu::deadPlayerMenuButtons()
+{
     if(BtryAgain.isClick())
     {
         return State::ReloadGame;
@@ -92,4 +104,10 @@ State GameMenu::deadPlayer()
     }
 
     return State::Game;
+}
+
+State GameMenu::deadPlayer()
+{
+    deadPlayerMenuDraw();
+    return deadPlayerMenuButtons();
 }
