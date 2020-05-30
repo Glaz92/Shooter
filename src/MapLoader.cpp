@@ -121,7 +121,7 @@ void MapLoader::readObjectElements(b2World & world, Map & map, Textures & textur
         {
             elements.push_back(Element(textureFileName, typeDim,
                                        sf::Vector2f(posX, posY),
-                                       rot, typeCol, textures,
+                                       rot, static_cast<CollisionType>(typeCol), textures,
                                        sf::IntRect(rectLeft, rectTop, rectW, rectH),
                                        world));
         };

@@ -38,7 +38,7 @@ void Bullet::logic(std::vector<BloodAnimation> & blood, Player & player)
 
     for(auto & object : objects)
     {
-        if(object.getColType() != 0)
+        if(object.getColType() != CollisionType::Non)
         {
             switch(object.getType())
             {
@@ -97,7 +97,7 @@ bool Bullet::isPointAvaible(float x, float y)
     auto checkPoint = [&] (auto & object, int comparator)
     {
         comparator -= 200;
-        if(object.getColType() !=0 &&
+        if(object.getColType() != CollisionType::Non &&
            abs(object.getPosition().x - position.x) < comparator && abs(object.getPosition().y - position.y) < comparator)
         {
             lifeTime = 700;
