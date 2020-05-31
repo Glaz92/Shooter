@@ -19,7 +19,7 @@ Textures::~Textures()
 {
 }
 
-void Textures::FindAndLoad(std::map<std::string, sf::Texture*> & textureList, const char * path, std::string path_)
+void Textures::FindAndLoad(std::map<std::string, std::unique_ptr<sf::Texture>> & textureList, const char * path, std::string path_)
 {
     textureList.clear();
 
@@ -35,7 +35,7 @@ void Textures::FindAndLoad(std::map<std::string, sf::Texture*> & textureList, co
         ss << path_ << fileData.name;
         tmp.loadFromFile(ss.str());
 
-        textureList[fileData.name] = new sf::Texture(tmp);
+        textureList[fileData.name] = std::make_unique<sf::Texture>(tmp);
 
         int keepLook = _findnext( handle, & fileData );
             
@@ -45,7 +45,7 @@ void Textures::FindAndLoad(std::map<std::string, sf::Texture*> & textureList, co
             ss << path_ << fileData.name;
             tmp.loadFromFile(ss.str());
 
-            textureList[fileData.name] = new sf::Texture(tmp);
+            textureList[fileData.name] = std::make_unique<sf::Texture>(tmp);
 
             keepLook = _findnext( handle, & fileData );
         }

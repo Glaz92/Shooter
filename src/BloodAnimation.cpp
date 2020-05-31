@@ -11,7 +11,7 @@ BloodAnimation::BloodAnimation(float xx, float yy, float tmpX)
 
     for(int i = 0; i < nB; i++)
     {
-        bulletObject tmp(xx,yy,tmpX+rand()%30-15,rand()%10+5,rand()%15,0);
+        BulletObject tmp(xx,yy,tmpX+rand()%30-15,rand()%10+5,rand()%15,0);
         blood.push_back(tmp);
     }
 }
@@ -24,7 +24,7 @@ BloodAnimation::BloodAnimation(float xx, float yy)
 
     for(int i = 0; i < nB; i++)
     {
-        bulletObject tmp(xx,yy,rand()%360,rand()%10+5,rand()%15,0);
+        BulletObject tmp(xx,yy,rand()%360,rand()%10+5,rand()%15,0);
         blood.push_back(tmp);
     }
 }
@@ -49,18 +49,3 @@ void BloodAnimation::draw()
     if(lifetime < blood.size())
         blood.pop_back();
 }
-
-
-/* ---- class bulletObject ----*/
-
-bulletObject::bulletObject(float x, float y, float r, float s, float l, int p)
-    : Object(x,y,r,s), lifetime(l), power(p) {}
-bulletObject::~bulletObject()
-{}
-
-/* ---- class Object ----*/
-
-Object::Object(float x, float y, float r, float s)
-    : posX(x), posY(y), rot(r), speed(s), frame(0) {}
-Object::~Object()
-{}

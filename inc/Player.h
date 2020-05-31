@@ -1,5 +1,6 @@
 #pragma once
 
+#include <memory>
 #include "Window.h"
 #include "Textures.h"
 #include <Box2d/Box2d.h>
@@ -25,8 +26,6 @@ public:
     void draw(sf::View & view);
     void control();
 
-    b2Body * getBody() { return body; }
-
     sf::Vector2f getPosition() { return position; }
     float getRot() { return character.getRotation(); }
 
@@ -45,7 +44,6 @@ public:
             life = 0;
             character.setTextureRect(sf::IntRect(0,64,128,64));
         }
-    
     }
 
 };
