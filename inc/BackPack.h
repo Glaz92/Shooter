@@ -6,14 +6,14 @@
 class BackPack
 {
 private:
-    int pAmmo;
-    int pMag;
-    int sAmmo;
-    int sMag;
-    int uAmmo;
-    int uMag;
-    int mAmmo;
-    int mMag;
+    int pistolAmmo;
+    int pistolMag;
+    int shotgunAmmo;
+    int shotgunMag;
+    int uziAmmo;
+    int uziMag;
+    int mgAmmo;
+    int mgMag;
     Weapon inHand;
     sf::RectangleShape box;
     sf::Vector2f position;

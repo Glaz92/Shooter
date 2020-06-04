@@ -5,8 +5,8 @@
 #include <tuple>
 
 BackPack::BackPack()
-    : pAmmo(24), pMag(12), sAmmo(0), sMag(8), uAmmo(30), uMag(30), mAmmo(0),
-    mMag(30), inHand(Weapon::Pistol), box(sf::Vector2f(230,120)),
+    : pistolAmmo(24), pistolMag(12), shotgunAmmo(0), shotgunMag(8), uziAmmo(30), uziMag(30),
+    mgAmmo(0), mgMag(30), inHand(Weapon::Pistol), box(sf::Vector2f(230,120)),
     position(20, sf::VideoMode::getDesktopMode().height - 140)
 {
     box.setFillColor(sf::Color(10, 10, 10, 140));
@@ -55,10 +55,10 @@ std::string BackPack::getWeaponInfoString()
 {
     std::ostringstream ss;
     using ammoInformation = std::tuple<std::string, int, int>;
-    std::map<Weapon, ammoInformation> ammunictionMap { { Weapon::Pistol, { "Pistol", pMag, pAmmo } },
-                                                       { Weapon::Shotgun, { "Shotgun", sMag, sAmmo } },
-                                                       { Weapon::Uzi, { "Uzi", uMag, uAmmo } },
-                                                       { Weapon::MG, { "MG", mMag, mAmmo } } };
+    std::map<Weapon, ammoInformation> ammunictionMap { { Weapon::Pistol, { "Pistol", pistolMag, pistolAmmo } },
+                                                       { Weapon::Shotgun, { "Shotgun", shotgunMag, shotgunAmmo } },
+                                                       { Weapon::Uzi, { "Uzi", uziMag, uziAmmo } },
+                                                       { Weapon::MG, { "MG", mgMag, mgAmmo } } };
 
     ss << std::get<0>(ammunictionMap[inHand]) << std::endl 
        << std::get<1>(ammunictionMap[inHand]) << "/" 
@@ -69,10 +69,10 @@ std::string BackPack::getWeaponInfoString()
 
 bool BackPack::shot()
 {
-    std::map<Weapon, int*> magMap { { Weapon::Pistol, &pMag },
-                                    { Weapon::Shotgun, &sMag },
-                                    { Weapon::Uzi, &uMag },
-                                    { Weapon::MG, &mMag } }; 
+    std::map<Weapon, int*> magMap { { Weapon::Pistol, &pistolMag },
+                                    { Weapon::Shotgun, &shotgunMag },
+                                    { Weapon::Uzi, &uziMag },
+                                    { Weapon::MG, &mgMag } }; 
 
     if(*magMap[inHand] > 0)
     {
@@ -90,15 +90,15 @@ int BackPack::reload()
                                             { Weapon::Uzi,30 },
                                             { Weapon::MG, 30 } };
 
-    std::map<Weapon, int*> magMap { { Weapon::Pistol, &pMag },
-                                    { Weapon::Shotgun, &sMag },
-                                    { Weapon::Uzi, &uMag },
-                                    { Weapon::MG, &mMag } }; 
+    std::map<Weapon, int*> magMap { { Weapon::Pistol, &pistolMag },
+                                    { Weapon::Shotgun, &shotgunMag },
+                                    { Weapon::Uzi, &uziMag },
+                                    { Weapon::MG, &mgMag } }; 
 
-    std::map<Weapon, int*> ammoMap { { Weapon::Pistol, &pAmmo },
-                                     { Weapon::Shotgun, &sAmmo },
-                                     { Weapon::Uzi, &uAmmo },
-                                     { Weapon::MG, &mAmmo } };
+    std::map<Weapon, int*> ammoMap { { Weapon::Pistol, &pistolAmmo },
+                                     { Weapon::Shotgun, &shotgunAmmo },
+                                     { Weapon::Uzi, &uziAmmo },
+                                     { Weapon::MG, &mgAmmo } };
 
     if(*magMap[inHand] == maxBulletsInMag[inHand])
     {

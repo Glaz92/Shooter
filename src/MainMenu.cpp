@@ -202,6 +202,8 @@ void MainMenu::mainMenuBasicButtons()
         playerName.setString("");
     };
 
+    playersList.isClick();
+
     if(startGame.isClick())
     {
         playerNameAndState("Start", MenuState::StartGame, true);

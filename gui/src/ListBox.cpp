@@ -30,41 +30,14 @@ ListBox::~ListBox(void)
 {
 }
 
-bool ListBox::draw()
+bool ListBox::isClick()
 {
-    if((elementButton.size()*30)>size.y)
-    {
-        barElement.setSize(sf::Vector2f(15,(size.y-30)/((float)elementButton.size()/float(int(size.y/30)))));
-//        barElement.setPosition(position.x+size.x-20,position.y+15);
-        end = int(size.y / 30);
-    }
-    else
-    {
-        barElement.setSize(sf::Vector2f(15,size.y-40));
-        barElement.setPosition(drawPos.x+size.x-15,drawPos.y+15);
-        end = elementButton.size();
-    }
-
-    barElement.setPosition(drawPos.x+size.x-15,drawPos.y+15);
-    barElement.setPosition(drawPos.x+size.x-15,drawPos.y+15);
-    mapplace.setPosition(drawPos);
-    scrollUp.setPosition(drawPos.x+size.x-13,drawPos.y);
-    scrollDown.setPosition(drawPos.x+size.x-13,drawPos.y+size.y-13);
-    bar.setPosition(drawPos.x+size.x-15,drawPos.y);
-
-    GetWindow().draw(&mapplace);
-    GetWindow().draw(&bar);
-    GetWindow().draw(&barElement);
-    GetWindow().draw(&scrollUp);
-    GetWindow().draw(&scrollDown);
-
-
     for(int i=0;i<end;i++)
     {
         elementButton[i+begin]->drawInPlace(sf::Vector2f(position.x+5,position.y+i*30),sf::Vector2f(drawPos.x+5,drawPos.y+i*30));
         if(elementButton[i+begin]->isClick())
         {
-            select=elementButton[i+begin]->getString();
+            select = elementButton[i+begin]->getString();
             return true;
         }
     }
@@ -74,9 +47,46 @@ bool ListBox::draw()
     return false;
 }
 
+float ListBox::getElementSizeDiv()
+{
+    return static_cast<float>(elementButton.size()) / static_cast<float>(static_cast<int>(size.y / 30));
+} 
+
+void ListBox::setElementsPositions()
+{
+    if((elementButton.size() * 30) > size.y)
+    {
+        barElement.setSize(sf::Vector2f(15,(size.y - 30) / getElementSizeDiv()));
+        end = int(size.y / 30);
+    }
+    else
+    {
+        barElement.setSize(sf::Vector2f(15, size.y - 40));
+        barElement.setPosition(drawPos.x+size.x - 15, drawPos.y + 15);
+        end = elementButton.size();
+    }
+
+    mapplace.setPosition(drawPos);
+    scrollUp.setPosition(drawPos.x + size.x - 13,drawPos.y);
+    scrollDown.setPosition(drawPos.x + size.x - 13, drawPos.y+size.y - 13);
+    bar.setPosition(drawPos.x + size.x - 15, drawPos.y);
+}
+
+void ListBox::draw()
+{
+    setElementsPositions();
+    GetWindow().draw(&mapplace);
+    GetWindow().draw(&bar);
+    GetWindow().draw(&barElement);
+    GetWindow().draw(&scrollUp);
+    GetWindow().draw(&scrollDown);
+}
+
 void ListBox::addElement(std::string name)
 {
-    elementButton.push_back(new Button(sf::Vector2f(position.x+5,position.y+elementButton.size()*30),name,sf::Vector2f(size.x-20,30)));
+    elementButton.push_back(std::make_unique<Button>(sf::Vector2f(position.x + 5, position.y + elementButton.size() * 30),
+                                                                  name,
+                                                                  sf::Vector2f(size.x - 20, 30)));
 }
 
 void ListBox::scroll()
@@ -85,6 +95,8 @@ void ListBox::scroll()
     scrollDown.setFillColor(sf::Color(40,40,40,160));
     if(GetWindow().getMousePosition().x>(position.x+size.x-15) && GetWindow().getMousePosition().x<(position.x+size.x))
     {
+        float delta = (((size.y - 30) - ((size.y - 30) / getElementSizeDiv()))) / static_cast<float>(elementButton.size() - static_cast<int>(size.y/30));
+
         if(GetWindow().getMousePosition().y<position.y+20 && GetWindow().getMousePosition().y>position.y)
         {
             scrollUp.setFillColor(sf::Color(60,120,180));
@@ -93,7 +105,7 @@ void ListBox::scroll()
                 while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
                 if(begin>0)
                 {
-                    barElement.move(0,-((((size.y-30)-((size.y-30)/((float)elementButton.size()/float(int(size.y/30))))))/float(elementButton.size()-int(size.y/30))));
+                    barElement.move(0, -delta);
                     begin--;
                 }
             }
@@ -107,7 +119,7 @@ void ListBox::scroll()
                 while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
                 if((begin + static_cast<int>(size.y / 30)) < static_cast<int>(elementButton.size()))
                 {
-                    barElement.move(0,((((size.y-30)-((size.y-30)/((float)elementButton.size()/float(int(size.y/30)))))/float(elementButton.size()-int(size.y/30)))));
+                    barElement.move(0, delta);
                     begin++;
                 }
             }
