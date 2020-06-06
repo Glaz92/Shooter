@@ -170,16 +170,16 @@ void Character::alarmedSeePlayer(Player & player, std::list<Bullet> & bullets, s
         {
             shot(bullets,characters,Elements);
         }
-        if(tmpPoints.size() > 0 && calculateDistance(character.getPosition(), tmpPoints[tmpPoints.size()-1]) < 15)
+        if(tmpPoints.size() > 0 && calculateDistance(character.getPosition(), tmpPoints[tmpPoints.size() - 1]) < 15)
         {
             tmpPoints.push_back(player.getPosition());
         }
         else
         {
             alarm = ALARM_MAX_VALUE;
-            tmpPoints[tmpPoints.size()-1] = character.getPosition();
+            if(tmpPoints.size() > 0) tmpPoints[tmpPoints.size() - 1] = character.getPosition();
             tmpPoints.push_back(player.getPosition());
-            setBodyLinearVelocity(tmpPoints[tmpPoints.size()-1]);
+            setBodyLinearVelocity(tmpPoints[tmpPoints.size() - 1]);
         }
     }
 }
