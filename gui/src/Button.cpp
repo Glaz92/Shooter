@@ -97,8 +97,8 @@ Button::Button(sf::Vector2f pos, std::string text, sf::Vector2f s, int font, int
     }
     else
     {
-        size.x=txt.getGlobalBounds().width+20;
-        size.y=txt.getGlobalBounds().height+10;
+        size.x = txt.getGlobalBounds().width + 20;
+        size.y = txt.getGlobalBounds().height + 10;
     }
 
     button.setSize(size);
@@ -116,8 +116,8 @@ void Button::draw()
 {
     button.setPosition(GetWindow().getViewCenter().x - GetWindow().getSize().x / 2 + position.x,
                        GetWindow().getViewCenter().y - GetWindow().getSize().y / 2 + position.y);
-    txt.setPosition(10 + GetWindow().getViewCenter().x - GetWindow().getSize().x/2 + position.x,
-                    1 + GetWindow().getViewCenter().y - GetWindow().getSize().y/2 + position.y);
+    txt.setPosition(10 + GetWindow().getViewCenter().x - GetWindow().getSize().x / 2 + position.x,
+                    1 + GetWindow().getViewCenter().y - GetWindow().getSize().y / 2 + position.y);
 
     GetWindow().draw(&button);
     GetWindow().draw(&txt);
@@ -126,36 +126,42 @@ void Button::draw()
 void Button::drawInPlace(sf::Vector2f pos)
 {
     position=pos;
-    button.setPosition(pos.x,pos.y);
-    txt.setPosition(pos.x,pos.y);
+    button.setPosition(pos.x, pos.y);
+    txt.setPosition(pos.x, pos.y);
     GetWindow().draw(&button);
     GetWindow().draw(&txt);
 }
 
 void Button::drawInPlace(sf::Vector2f pos, sf::Vector2f drawPos)
 {
-    position=pos;
-    button.setPosition(drawPos.x,drawPos.y);
-    txt.setPosition(drawPos.x,drawPos.y);
+    position = pos;
+    button.setPosition(drawPos.x, drawPos.y);
+    txt.setPosition(drawPos.x, drawPos.y);
     GetWindow().draw(&button);
     GetWindow().draw(&txt);
+}
+
+bool Button::isCursorOverButton()
+{
+    if(GetWindow().getMousePosition().x > position.x && GetWindow().getMousePosition().x < position.x+size.x)
+        if(GetWindow().getMousePosition().y > position.y && GetWindow().getMousePosition().y < position.y+size.y)
+            return true;
+
+    return false;
 }
 
 bool Button::isClick()
 {
     button.setFillColor(backColor);
-    if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-        if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
+    if(isCursorOverButton())
+    {
+        button.setFillColor(sf::Color(60, 120, 180, alpha));
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            button.setFillColor(sf::Color(60,120,180,alpha));
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-                while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
-                if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-                    if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
-                        return true;
-            }
+            while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
+            return isCursorOverButton();
         }
+    }
 
     return false;
 }
@@ -163,20 +169,15 @@ bool Button::isClick()
 bool Button::isClickRight()
 {
     button.setFillColor(backColor);
-    if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-        if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
+    if(isCursorOverButton())
+    {
+        button.setFillColor(sf::Color(60,120,180,alpha));
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
         {
-            button.setFillColor(sf::Color(60,120,180,alpha));
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
-            {
-                while(sf::Mouse::isButtonPressed(sf::Mouse::Right));
-                if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-                    if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
-                        return true;
-            }
+            while(sf::Mouse::isButtonPressed(sf::Mouse::Right));
+            return isCursorOverButton();
         }
-    
-
+    }
 
     return false;
 }
@@ -185,19 +186,14 @@ bool Button::isPressed()
 {
 
     button.setFillColor(backColor);
-    if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-        if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
+    if(isCursorOverButton())
+    {
+        button.setFillColor(sf::Color(60,120,180));
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            button.setFillColor(sf::Color(60,120,180));
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
-            {
-            //    while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
-                sf::sleep(sf::milliseconds(65));
-                if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-                    if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
-                        return true;
-            }
+            return isCursorOverButton();
         }
+    }
 
     return false;
 }
@@ -206,21 +202,14 @@ bool Button::isPressedRight()
 {
 
     button.setFillColor(backColor);
-    if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-        if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
+    if(isCursorOverButton())
+    {
+        button.setFillColor(sf::Color(60,120,180));
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
         {
-            button.setFillColor(sf::Color(60,120,180));
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Right))
-            {
-            //    while(sf::Mouse::isButtonPressed(sf::Mouse::Right));
-                sf::sleep(sf::milliseconds(65));
-                if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-                    if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
-                        return true;
-            }
+            return isCursorOverButton();
         }
-    
-
+    }
 
     return false;
 }

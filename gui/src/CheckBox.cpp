@@ -51,28 +51,35 @@ void CheckBox::drawInPlace(sf::Vector2f pos)
     GetWindow().draw(&txt);
 }
 
+bool CheckBox::isCursorOverCheckBox()
+{
+    if(GetWindow().getMousePosition().x > position.x && GetWindow().getMousePosition().x < position.x + size.x)
+        if(GetWindow().getMousePosition().y > position.y && GetWindow().getMousePosition().y < position.y + size.y)
+            return true;
+
+    return false;
+}
+
 bool CheckBox::isClick()
 {
     button.setFillColor(sf::Color(130,130,130));
-    if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-        if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
+    if(isCursorOverCheckBox())
+    {
+        button.setFillColor(sf::Color(60,120,180));
+        if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
         {
-            button.setFillColor(sf::Color(60,120,180));
-            if(sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
+            if(isCursorOverCheckBox())
             {
-                while(sf::Mouse::isButtonPressed(sf::Mouse::Left));
-                if(GetWindow().getMousePosition().x>position.x && GetWindow().getMousePosition().x<position.x+size.x)
-                    if(GetWindow().getMousePosition().y>position.y && GetWindow().getMousePosition().y<position.y+size.y)
-                    {
-                        if(status)
-                            status=false;
-                        else
-                            status=true;
+                if(status)
+                    status=false;
+                else
+                    status=true;
 
-                        return true;
-                    }
+                return true;
             }
         }
+    }
 
     return false;
 }

@@ -31,5 +31,7 @@ public:
     bool getStatus() { return status; }
     void setStatus(bool s) { status = s; }
 
+private:
+    bool isCursorOverCheckBox();
 };
 

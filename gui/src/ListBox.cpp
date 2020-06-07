@@ -34,7 +34,8 @@ bool ListBox::isClick()
 {
     for(int i=0;i<end;i++)
     {
-        elementButton[i+begin]->drawInPlace(sf::Vector2f(position.x+5,position.y+i*30),sf::Vector2f(drawPos.x+5,drawPos.y+i*30));
+        elementButton[i+begin]->drawInPlace(sf::Vector2f(position.x + 5, position.y + i * 30),
+                                            sf::Vector2f(drawPos.x + 5, drawPos.y + i * 30));
         if(elementButton[i+begin]->isClick())
         {
             select = elementButton[i+begin]->getString();
@@ -49,7 +50,8 @@ bool ListBox::isClick()
 
 float ListBox::getElementSizeDiv()
 {
-    return static_cast<float>(elementButton.size()) / static_cast<float>(static_cast<int>(size.y / 30));
+    return static_cast<float>(elementButton.size()) /
+           static_cast<float>(static_cast<int>(size.y / 30));
 } 
 
 void ListBox::setElementsPositions()
@@ -84,9 +86,9 @@ void ListBox::draw()
 
 void ListBox::addElement(std::string name)
 {
-    elementButton.push_back(std::make_unique<Button>(sf::Vector2f(position.x + 5, position.y + elementButton.size() * 30),
-                                                                  name,
-                                                                  sf::Vector2f(size.x - 20, 30)));
+    sf::Vector2f position { position.x + 5, position.y + elementButton.size() * 30 };
+    sf::Vector2f size { size.x - 20, 30 };
+    elementButton.push_back(std::make_unique<Button>(position, name, size));
 }
 
 void ListBox::scroll()

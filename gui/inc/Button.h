@@ -40,4 +40,7 @@ public:
     void setString(std::string _txt) { txt.setString(_txt); }
 
     void rescale(float x);
+
+private:
+    bool isCursorOverButton();
 };
