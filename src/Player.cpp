@@ -71,3 +71,13 @@ void Player::control()
     }
 }
 
+void Player::changeLife(int x) 
+{ 
+    life = life + x > 200 ? 200 : life + x; 
+
+    if(life<1)
+    {
+        life = 0;
+        character.setTextureRect(sf::IntRect(0, 64, 128, 64));
+    }
+}

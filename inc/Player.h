@@ -29,23 +29,13 @@ public:
     sf::Vector2f getPosition() { return position; }
     float getRot() { return character.getRotation(); }
 
-    void setWeapon(int i) { character.setTextureRect(sf::IntRect(i*64,0,64,64)); }
+    void setWeapon(int i) { character.setTextureRect(sf::IntRect(i * 64, 0, 64, 64)); }
 
     int getLife() { return life; }
 
     void setLife(int x) { life = x; }
 
-    void changeLife(int x) 
-    { 
-        life += x; 
-        if(life>200) life = 200; 
-        if(life<1)
-        {
-            life = 0;
-            character.setTextureRect(sf::IntRect(0,64,128,64));
-        }
-    }
-
+    void changeLife(int x);
 };
 
 

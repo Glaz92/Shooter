@@ -1,6 +1,7 @@
 #include "Element.h"
 #include "Window.h"
 #include <sstream>
+#include <map>
 
 Element::Element(std::string fileName, int t, sf::Vector2f pos, int r, CollisionType colT, Textures & texture, sf::IntRect intR, b2World & world)
     : textureFileName(fileName), type(static_cast<ElementType>(t)), position(pos), rot(r), collisionType(colT), intRect(intR), textures(texture)
@@ -103,32 +104,23 @@ void Element::setAll(std::string fileName, int t, sf::Vector2f pos, int r, Colli
     collisionType = colT;
     intRect = intR;
 
-    if(type == ElementType::BackSmall || type == ElementType::MidSmall || type == ElementType::TopSmall)
-        obj.setOrigin(16,16);
-    else
-        obj.setOrigin(32,32);
+    struct ObjOriginDefault { int value = 32; };
+    std::map<ElementType, ObjOriginDefault> objOrigin { { ElementType::BackSmall, ObjOriginDefault { 16 } },
+                                                        { ElementType::MidSmall, ObjOriginDefault { 16 } },
+                                                        { ElementType::TopSmall, ObjOriginDefault { 16 } } };
 
-    switch(type)
-    {
-    case ElementType::BackSmall:
-        obj.setTexture(*textures.back32[textureFileName]);
-        break;
-    case ElementType::MidSmall:
-        obj.setTexture(*textures.mid32[textureFileName]);
-        break;
-    case ElementType::TopSmall:
-        obj.setTexture(*textures.top32[textureFileName]);
-        break;
-    case ElementType::BackBig:
-        obj.setTexture(*textures.back64[textureFileName]);
-        break;
-    case ElementType::MidBig:
-        obj.setTexture(*textures.mid64[textureFileName]);
-        break;
-    case ElementType::TopBig:
-        obj.setTexture(*textures.top64[textureFileName]);
-        break;
-    }
+    obj.setOrigin(objOrigin[type].value,
+                  objOrigin[type].value);
+
+    using TextureMap = std::map<std::string, std::unique_ptr<sf::Texture>>*;
+    std::map<ElementType, TextureMap> textureMap { { ElementType::BackSmall, &textures.back32},
+                                                    { ElementType::MidSmall, &textures.mid32},
+                                                    { ElementType::TopSmall, &textures.top32},
+                                                    { ElementType::BackBig, &textures.back64},
+                                                    { ElementType::MidBig, &textures.mid64},
+                                                    { ElementType::TopBig, &textures.top64} };
+
+    obj.setTexture(*(*textureMap[type])[textureFileName].get());
 
     obj.setTextureRect(intRect);
     obj.setRotation(0);

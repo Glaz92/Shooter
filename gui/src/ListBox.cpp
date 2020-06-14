@@ -86,9 +86,9 @@ void ListBox::draw()
 
 void ListBox::addElement(std::string name)
 {
-    sf::Vector2f position { position.x + 5, position.y + elementButton.size() * 30 };
+    sf::Vector2f pos { position.x + 5, position.y + elementButton.size() * 30 };
     sf::Vector2f size { size.x - 20, 30 };
-    elementButton.push_back(std::make_unique<Button>(position, name, size));
+    elementButton.push_back(std::make_unique<Button>(pos, name, size));
 }
 
 void ListBox::scroll()
