@@ -24,7 +24,10 @@ BloodAnimation::BloodAnimation(float xx, float yy)
 
     for(int i = 0; i < nB; i++)
     {
-        BulletObject tmp(xx,yy,rand()%360,rand()%10+5,rand()%15,0);
+        BulletObject tmp(xx, yy,
+                         rand() % 360,
+                         rand() % 10 + 5,
+                         rand() % 15, 0);
         blood.push_back(tmp);
     }
 }

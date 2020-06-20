@@ -3,6 +3,7 @@
 #include "MapLoader.h"
 #include <map>
 #include <tuple>
+#include <algorithm>
 
 GameEngine::GameEngine(std::string _playerName)
     : world(b2Vec2(0,0)), playerName(_playerName), reloadTime(0), state(GameEngineState::Game),
@@ -114,10 +115,12 @@ void GameEngine::gameLogic()
         }
     }
 
-    for(auto & character : characters)
+    auto behaviour = [&](auto & character)
     {
         character.behavior(*player, bullets, characters, map.getElementsMid());
-    }
+    };
+
+    std::for_each(characters.begin(), characters.end(), behaviour);
 
     world.Step(timeStep, 8, 3);
     score.calculateMultiple();
@@ -166,14 +169,18 @@ void GameEngine::draw()
 {
     map.drawBackground();
 
-    for(auto & b : blood) b.draw();
-    for(auto & character : characters) character.drawIfDead();
+    auto drawElement = [](auto & element) { element.draw(); };
+    auto drawDeadCharacter = [](auto & character) { character.drawIfDead(); };
+    auto drawAliveCharacter = [](auto & character) { character.drawIfAlive(); };
+
+    std::for_each(blood.begin(), blood.end(), drawElement);
+    std::for_each(characters.begin(), characters.end(), drawDeadCharacter);
     map.drawElementsMid();
-    for(auto & bullet : bullets) bullet.draw();
+    std::for_each(bullets.begin(), bullets.end(), drawElement);
 
     player->draw(view);
 
-    for(auto & character : characters) character.drawIfAlive();
+    std::for_each(characters.begin(), characters.end(), drawAliveCharacter);
     map.drawElementsTop();
 
     backPack.draw(player->getLife());
