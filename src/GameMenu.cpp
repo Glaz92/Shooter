@@ -1,5 +1,7 @@
 #include "GameMenu.h"
 #include "Window.h"
+#include <fstream>
+#include <sstream>
 
 const sf::Vector2f posButton(100,400);
 
@@ -110,4 +112,97 @@ State GameMenu::deadPlayer()
 {
     deadPlayerMenuDraw();
     return deadPlayerMenuButtons();
+}
+
+void GameMenu::endLevelMenuDraw()
+{
+    title.setString("Congratulations!");
+    shapeTmp.setPosition(GetWindow().getViewCenter());
+
+    title.setPosition(GetWindow().getViewCenter().x, GetWindow().getViewCenter().y - 150 * GetWindow().getRescaleT());
+    stat.setPosition(GetWindow().getViewCenter().x,GetWindow().getViewCenter().y - 50 * GetWindow().getRescaleT());
+
+    GetWindow().draw(&shapeTmp);
+
+    GetWindow().draw(&title);
+    GetWindow().draw(&stat);
+
+    BnextLevel.draw();
+    BmainMenu.draw();
+    BquitGame.draw();
+}
+
+void GameMenu::setNextLevel(const std::string playerName)
+{
+    std::fstream fPlayer;
+    fPlayer.open("data\\Configurations\\players.txt");
+
+    std::vector<std::string> lines;
+    std::string tmpString;
+    int tmpInt;
+
+    while(fPlayer >> tmpString)
+    {
+        std::ostringstream ss;
+        ss.str("");	
+        if(tmpString == "player=")
+        {
+            ss << tmpString << " ";
+            fPlayer >> tmpString;
+            if(tmpString == playerName)
+            {
+                ss << tmpString << " ";
+                fPlayer >> tmpString;
+                ss << tmpString << " ";
+                fPlayer >> tmpInt;
+                tmpInt++;
+                ss << tmpInt << std::endl;
+            }
+            else
+            {
+                ss << tmpString << " ";
+                fPlayer >> tmpString;
+                ss << tmpString << " ";
+                fPlayer >> tmpString;
+                ss << tmpString << std::endl;
+            }
+        }
+        lines.push_back(ss.str());
+    }
+
+    fPlayer.close();
+    fPlayer.open("data\\Configurations\\players.txt", std::ios::out);
+
+    for(const auto & line : lines)
+    {
+        fPlayer << line;
+    }
+
+    fPlayer.close();
+}
+
+State GameMenu::endLevelMenuButtons(const std::string playerName)
+{
+    if(BnextLevel.isClick())
+    {
+        setNextLevel(playerName);
+        return State::ReloadGame;
+    }
+    if(BmainMenu.isClick())
+    {
+        GetWindow().setDefaultView();
+        return State::MainMenu;
+    }
+    if(BquitGame.isClick())
+    {
+        GetWindow().close();
+    }
+
+    return State::Game;
+}
+
+State GameMenu::endLevelMenu(const std::string playerName)
+{
+    endLevelMenuDraw();
+    return endLevelMenuButtons(playerName);
 }

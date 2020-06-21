@@ -25,6 +25,7 @@ public:
 public:
     GameEngineState pause();
     State deadPlayer();
+    State endLevelMenu(const std::string playerName);
 
 private:
     void pauseMenuDraw();
@@ -33,4 +34,8 @@ private:
     void deadPlayerMenuDraw();
     State deadPlayerMenuButtons();
 
+    void endLevelMenuDraw();
+    State endLevelMenuButtons(const std::string playerName);
+
+    void setNextLevel(const std::string playerName);
 };

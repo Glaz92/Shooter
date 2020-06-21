@@ -162,7 +162,7 @@ State GameEngine::deadPlayer()
 
 State GameEngine::endLevel()
 {
-    return State::MainMenu;
+    return gameMenu.endLevelMenu(playerName);
 }
 
 void GameEngine::draw()
