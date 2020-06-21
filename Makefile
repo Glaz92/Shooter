@@ -1,5 +1,5 @@
 CC		:= g++
-CFLAGS	:= -std=c++17 -Wall -Wextra
+CFLAGS	:= -std=c++17 -Wall -Wextra -pedantic
 
 SRC 	:= src
 GUISRC	:= gui/src
