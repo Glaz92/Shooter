@@ -21,6 +21,7 @@ MainMenu::MainMenu(std::shared_ptr<GameEngine> & _game)
     playersList(sf::Vector2f(300,150),sf::Vector2f(posButton.x+400,posButton.y-15)),
     start(sf::Vector2f(posButton.x+610,posButton.y+150),"Load",sf::Vector2f(90,30),3,15),
     deleteGame(sf::Vector2f(posButton.x+610,posButton.y+185),"Delete",sf::Vector2f(90,30),3,15),
+    video(sf::VideoMode::getFullscreenModes()),
     style(GetWindow().getStyle())
 {
     title.setString("Shooter: The Game");
@@ -29,14 +30,11 @@ MainMenu::MainMenu(std::shared_ptr<GameEngine> & _game)
     title.setPosition(100,100);
     title.setFillColor(sf::Color::White);
 
-    for(unsigned int i=0; i < sf::VideoMode::getFullscreenModes().size(); i++)
-        video.push_back(sf::VideoMode::getFullscreenModes()[i]);  
-
-    for(unsigned int i=0; i < video.size(); i++)
+    for(unsigned int i = 0; i < video.size(); i++)
     {
         if(sf::VideoMode::getDesktopMode() == video[i])
         {
-            videoMode=i;
+            videoMode = i;
             break;
         }
     }

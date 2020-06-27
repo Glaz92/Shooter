@@ -18,6 +18,8 @@ Window::Window(sf::VideoMode & video, sf::Uint32 & style)
     window.setMouseCursorVisible(false);
 
     background.create(8192,8192);
+    boxRT.create(230, 95);
+    boxRT.clear(sf::Color(10, 10, 10, 140));
 
     sf::RectangleShape tmp(sf::Vector2f(45,15));
     tmp.setFillColor(sf::Color(190,0,0,140));

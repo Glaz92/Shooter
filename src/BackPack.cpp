@@ -26,11 +26,15 @@ BackPack::~BackPack()
 
 void BackPack::draw(int playerLife)
 {
-    box.setPosition(GetWindow().getViewCenter().x-sf::VideoMode::getDesktopMode().width/2+position.x,GetWindow().getViewCenter().y-sf::VideoMode::getDesktopMode().height/2+position.y);
-    txt.setPosition(box.getPosition().x+35,box.getPosition().y+20);
+    box.setPosition(GetWindow().getViewCenter().x - sf::VideoMode::getDesktopMode().width / 2 + position.x,
+                    GetWindow().getViewCenter().y - sf::VideoMode::getDesktopMode().height / 2 + position.y);
+    txt.setPosition(box.getPosition().x + 35,
+                    box.getPosition().y + 20);
 
-    boxS.setPosition(GetWindow().getViewCenter().x+sf::VideoMode::getDesktopMode().width/2-position.x-240,GetWindow().getViewCenter().y-sf::VideoMode::getDesktopMode().height/2+position.y+30);
-    life.setPosition(boxS.getPosition().x+20,boxS.getPosition().y+25);
+    boxS.setPosition(GetWindow().getViewCenter().x + sf::VideoMode::getDesktopMode().width / 2 - position.x - 240,
+                     GetWindow().getViewCenter().y - sf::VideoMode::getDesktopMode().height / 2 + position.y + 30);
+    life.setPosition(boxS.getPosition().x + 20,
+                     boxS.getPosition().y + 25);
 
     txt.setString(getWeaponInfoString());
 
