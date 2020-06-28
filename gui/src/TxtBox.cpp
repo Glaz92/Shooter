@@ -1,5 +1,7 @@
 #include "TxtBox.h"
 #include "Window.h"
+#include <map>
+#include <utility>
 
 TxtBox::TxtBox(sf::Vector2f s, sf::Vector2f pos, bool in, bool onlyNumbers)
     : input(in), box(s), position(pos), size(s), active(false), onlyNum(onlyNumbers)
@@ -19,7 +21,7 @@ TxtBox::TxtBox(sf::Vector2f s, sf::Vector2f pos, bool in, bool onlyNumbers)
 }
 
 
-TxtBox::~TxtBox(void)
+TxtBox::~TxtBox()
 {
 }
 
@@ -62,37 +64,40 @@ void TxtBox::draw()
 
 void TxtBox::inputTxt()
 {
-    sf::Event ev;
-    
-    while(GetWindow().pollEvent(ev))
+    using upperLowerLetter = std::pair<char, char>;
+    using KeyEnum = sf::Keyboard::Key;
+    std::map<KeyEnum, upperLowerLetter> keyMap { { KeyEnum::A, { 'a', 'A' } }, { KeyEnum::B, { 'b', 'B' } }, { KeyEnum::C, { 'c', 'C' } },
+                                                 { KeyEnum::D, { 'd', 'D' } }, { KeyEnum::E, { 'e', 'E' } }, { KeyEnum::F, { 'f', 'F' } },
+                                                 { KeyEnum::G, { 'g', 'G' } }, { KeyEnum::H, { 'h', 'H' } }, { KeyEnum::I, { 'i', 'I' } },
+                                                 { KeyEnum::J, { 'j', 'J' } }, { KeyEnum::K, { 'k', 'K' } }, { KeyEnum::L, { 'l', 'L' } },
+                                                 { KeyEnum::M, { 'm', 'M' } }, { KeyEnum::N, { 'n', 'N' } }, { KeyEnum::O, { 'o', 'O' } },
+                                                 { KeyEnum::P, { 'p', 'P' } }, { KeyEnum::R, { 'r', 'R' } }, { KeyEnum::S, { 's', 'S' } },
+                                                 { KeyEnum::T, { 't', 'T' } }, { KeyEnum::U, { 'u', 'U' } }, { KeyEnum::W, { 'w', 'W' } },
+                                                 { KeyEnum::Y, { 'y', 'Y' } }, { KeyEnum::Z, { 'z', 'Z' } }, { KeyEnum::X, { 'a', 'X' } },
+                                                 { KeyEnum::Q, { 'q', 'Q' } } };
+
+    for(const auto & key : keyMap)
     {
-        if(ev.type == sf::Event::Closed)
-            GetWindow().close();
-        if(ev.type == sf::Event::KeyPressed && ev.key.code == sf::Keyboard::BackSpace)
+        if(sf::Keyboard::isKeyPressed(key.first))
         {
-            std::string tmpS=ss.str();
-            ss.str("");
-            ss << tmpS.substr(0,tmpS.length()-1);
-        }
-        if(ev.type == sf::Event::TextEntered)
-        {
-            if(!onlyNum)
+            if(sf::Keyboard::isKeyPressed(KeyEnum::LShift) || sf::Keyboard::isKeyPressed(KeyEnum::RShift))
             {
-                if(((ev.text.unicode>47 && ev.text.unicode<58) || (ev.text.unicode>64 && ev.text.unicode<91) || (ev.text.unicode>96 && ev.text.unicode<123) || ev.text.unicode==46) && ss.str().length()<25)
-                {
-                    char tmp=ev.text.unicode;
-                    ss << tmp;
-                }
+                ss << key.second.second;
             }
             else
             {
-                if(((ev.text.unicode>47 && ev.text.unicode<58) && ss.str().length()<6))
-                {
-                    char tmp=ev.text.unicode;
-                    ss << tmp;
-                }
+                ss << key.second.first;
             }
+            
         }
+        while(sf::Keyboard::isKeyPressed(key.first));
+    }
+
+    if(sf::Keyboard::isKeyPressed(KeyEnum::BackSpace))
+    {
+        std::string tmpS=ss.str();
+        ss.str("");
+        ss << tmpS.substr(0, tmpS.length() - 1);
     }
 }
 

@@ -40,7 +40,6 @@ private:
     b2Body * body;
     Sounds sounds;
 
-
 public:
     Character(b2World & _world, sf::Vector2f _position, float _rot, Textures & _textures, std::string fileName, sf::IntRect _rect, bool _anim, int _animStep, std::vector<sf::Vector2f> _points);
     ~Character();
